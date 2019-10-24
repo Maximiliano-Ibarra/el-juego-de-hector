@@ -1,0 +1,23 @@
+import wollok.game.*
+import example.*
+import imagenes.*
+
+program hectorgame {
+	
+	game.title ("El juego de Hector")
+	game.width(10)
+	game.height(12)
+	hector.position(game.center())
+	(1..1.randomUpTo(10).truncate(0)).forEach({g=>game.addVisual(new Caja())})
+	game.addVisual(hector)
+	game.addVisual(zorro)
+	keyboard.up().onPressDo {hector.moveteHaciaArriba()}
+	keyboard.down().onPressDo{hector.moveteHaciaAbajo()}
+	keyboard.right().onPressDo{hector.moveteHaciaDerecha()} 
+	keyboard.left().onPressDo{hector.moveteHaciaIzquierda()}
+	keyboard.e().onPressDo{hector.energia()}
+	game.onTick(2000, "movimiento", { zorro.movete() })
+	game.whenCollideDo(hector,{m=>m.desaparece()})
+	game.whenCollideDo(hector,{z=>game.say(hector,"GAME OVER")})
+    game.start()
+}
